@@ -20,6 +20,7 @@ import model.User;
  */
 @WebServlet(name = "Profile", urlPatterns = {"/Profile"})
 public class Profile extends HttpServlet {
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -38,44 +39,47 @@ public class Profile extends HttpServlet {
         try {
             //Create connection to DB
             UserMapper.setConnection();
-            
+
             //Get the user from the current session
             user = (User) session.getAttribute("user");
-            
+
             //Get the account of the current customer
             accountID = user.getAccountID();
-            
-            //Get the parameters from the edit form
+
             email = request.getParameter("email");
             password = request.getParameter("password");
             address = request.getParameter("address");
             phone = request.getParameter("phone");
-            zipCode = request.getParameter("zipcode");
-            
+            zipCode = request.getParameter("zipCode");
+
             //Update user info
-            if (!email.equals("empty")) {
-                UserMapper.updateEmail(email, accountID);
-            }
-            if (!password.equals("empty")) {
+            if (password!=null && password.length()>1) {
                 UserMapper.updatePassword(password, accountID);
             }
-            if (!address.equals("empty")) {
+            if (address!=null && address.length()>1) {
                 UserMapper.updateAdress(address, accountID);
             }
-            if (!phone.equals("empty")) {
+            if (phone!=null && phone.length()>1) {
                 UserMapper.updatePhone(phone, accountID);
             }
-            if (!zipCode.equals("empty")) {
+            if (zipCode!=null && zipCode.length()>1) {
                 UserMapper.updateZipcode(zipCode, accountID);
             }
-            
-            //Update User Object in session               
-            user = UserMapper.getUser(user.getEmail());
+            if (email!=null && email.length()>1) {
+                UserMapper.updateEmail(email, accountID);
+                
+                //Update the user object with the new email
+                user = UserMapper.getUser(email);
+            } else {
+                //Update the user object with the old email
+                user = UserMapper.getUser(user.getEmail());
+            }
+            //Set the user object into the session
             session.setAttribute("user", (Object) user);
-            
+
             //Redirect back to profile page
             response.sendRedirect("profile/profile.jsp");
-            
+
         } catch (UpdateUserInfoException ex) {
             ex.printStackTrace();
             session.setAttribute("error", "UpdateUserInfoException");
@@ -148,14 +152,14 @@ public class Profile extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Server Failure</title>");            
+            out.println("<title>Server Failure</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Our servers are down at the moment. We are trying to fix this as soon as possible. Please try again later.");
             out.println("</body>");
             out.println("</html>");
         } catch (IOException ex) {
-            
+
         }
     }
 }

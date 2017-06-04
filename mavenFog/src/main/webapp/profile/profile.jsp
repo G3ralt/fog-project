@@ -13,8 +13,25 @@
 <%
     if (session.getAttribute("error") != null) {
         errorMessage = ConnectionException.getExceptionMessage((String) session.getAttribute("error"), session);
-        session.removeAttribute("error"); %>
-<!--Make modal Login to be visible if the first login attempt was failed-->
+        session.removeAttribute("error");%>
+
+<!-- Exception modal-->
+<div id="exceptionModal" class="modal" style="overflow-y: scroll; z-index: 10;">
+    <form class="modal-content animate">
+        <div class="imgcontainer">
+            <span onclick="document.getElementById('exceptionModal').style.display = 'none'" class="close" title="Close Modal">&times;</span>
+            <h1 class="w3-container ">Error /Exception/ Occurred!</h1>
+            <div class="imgcontainer alert alert-danger">
+                <strong><%= errorMessage%></strong>
+            </div>
+        </div>
+        <div class="loginContainer">
+        </div>
+    </form>
+</div>
+<!-- Exception modal END -->
+
+<!--Make modal Exception to be visible-->
 <script>
     // Get the modal
     var modal = document.getElementById('exceptionModal');
@@ -50,15 +67,16 @@
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
         <!-- External links to documents -->
         <link rel="stylesheet" href="../css/style.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script
+            src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous">
+        </script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
         <style>    
             #id02 {
                 display: none;
             }
-            .red {
-                background-color: red !important;    
-            } 
         </style>
     </head>
 
@@ -81,7 +99,7 @@
                         <% if (user != null) {%>
                         <!-- HERE WHEN LOGGED IN DIV -->
                         <li>
-                            <a href="#" id="dropdownMenu1" data-toggle="dropdown"><%= email %>&nbsp;<span class="caret"></span></a>
+                            <a href="#" id="dropdownMenu1" data-toggle="dropdown"><%= email%>&nbsp;<span class="caret"></span></a>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
                                 <li class="divider"></li>
                                 <li><a id="logoutFunction" href="#">Log out</a></li>
@@ -106,24 +124,10 @@
                 </div>
             </form>
         </div><!-- Logout END -->
-        
-        <!-- Exception modal-->
-        <div id="exceptionModal" class="modal">
-            <form class="modal-content animate" action="Carport">
-                <div class="imgcontainer">
-                    <span onclick="document.getElementById('exceptionModal').style.display = 'none'" class="close" title="Close Modal">&times;</span>
-                    <h1 class="w3-container ">Exception Occured!</h1>
-                    <div class="imgcontainer alert alert-danger">
-                        <strong><%= errorMessage%></strong>
-                    </div>
-                </div>
-                <div class="loginContainer">
-                </div>
-            </form>
-        </div>
-        <!-- Exception modal END -->
+
         
         <div style="margin-top: 70px;"></div>
+        
         <div class="w3-white w3-card-2 w3-container w3-margin w3-padding-32">
             <h1>Your page:</h1>
             <ul class="nav nav-tabs">
@@ -143,80 +147,72 @@
                         <table class="w3-table w3-bordered w3-padding" cellpadding="5">
                             <tr>
                                 <th>First Name:</th>
-                                <td><%= firstName %></td>
+                                <td><%= firstName%></td>
                             </tr>
                             <tr>
                                 <th>Last Name:</th>
-                                <td><%= lastName %></td>
+                                <td><%= lastName%></td>
                             </tr>
                             <tr>
                                 <th>Email:</th>
-                                <td><%= email %></td>
+                                <td><%= email%></td>
                             </tr>                        
                             <tr>
                                 <th>Address:</th>
-                                <td><%= address %></td>
+                                <td><%= address%></td>
                             </tr>
                             <tr>
                                 <th>ZipCode:</th>
-                                <td><%= zipCode %></td>
+                                <td><%= zipCode%></td>
                             </tr>
                             <tr>
                                 <th>Phone number:</th>
-                                <td><%= phone %></td>
+                                <td><%= phone%></td>
                             </tr>
                             <tr>
                                 <th>Account ID: </th>
-                                <td><%= accountID %></td>
+                                <td><%= accountID%></td>
                             </tr>
                         </table>
                     </div>
 
 
                     <div id="id02">
-                        <form action="../Profile" method="post">
-                            <table  cellpadding="5">
-                                <tr>
-                                    <td>Email: </td>        
-                                    <td><input type="text" name="email" placeholder="<%= email %>"></td>
-                                </tr>
-                                <tr>
-                                    <td>Password: </td>
-                                    <td><input type="text" name="password" placeholder="new password"></td>        
-                                </tr>
-                                <tr>
-                                    <td>Address: </td>
-                                    <td><input type="text" name="address" placeholder="<%= address %>"></td>        
-                                </tr>
-                                <tr>
-                                    <td>Phone: </td>
-                                    <td><input type="number" name="phone" placeholder="<%= phone %>"></td>        
-                                </tr>
-                                <tr>
-                                    <td>ZipCode: </td>
-                                    <td><input type="number" name="zipcode" placeholder="<%= zipCode %>"></td>        
-                                </tr> 
-                            </table>
-                            <button class="w3-button w3-green" type="submit"> Submit</button>
+                        <form class="modal-content animate" action="../Profile" method="POST">
+                            <div class="loginContainer">
+                                <label><b>Email</b></label>
+                                <input type="text" placeholder="<%= email%>" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" title="customer@fog.dk" class="inputFields">
+                                <label><b>Password</b></label>
+                                <input type="password" placeholder="Best min. 8 characters" name="password" title="at least 8 characters" pattern=".{8,}" class="inputFields" id="passwordReg">
+                                <label><b>Re-type Password</b></label>
+                                <input type="password" placeholder="Just to check ;)" name="repassword" title="type the same password" pattern=".{8,}" class="inputFields" id="repasswordReg">
+                                <div><p id="pCheckPassword" style="color: red"></p></div>
+                                <label><b>Phone number</b></label>
+                                <input type="text" placeholder="<%= phone%>" name="phone" title="e.g. 45871001 (8 numericals)" pattern="[0-9]{8,8}" class="inputFields">
+                                <label><b>Address</b></label>
+                                <input type="text" placeholder="<%= address%>" name="address" title="e.g. Street Name 23" pattern="[A-Za-z0-9 ]{5,190}">
+                                <label><b>Zip code</b></label>
+                                <input type="text" placeholder="<%= zipCode%>" name="zipCode" title="e.g. 2800" pattern="[0-9]{4}" class="inputFields">
+
+                                <button type="submit" class="btn btn-success" id="RegButton"><span class="glyphicon glyphicon-ok"></span>&nbsp;Submit</button>
+                            </div>
                         </form>
                     </div>
                     <div class="w3-padding-16 w3-margin-32 w3-left">
-                        <a id="edit" class="w3-button w3-yellow" onclick="toggle()">Edit</a>
+                        <a id="edit" class="btn btn-warning" onclick="toggle()">Edit</a>
                     </div>
                     <script>
                         function toggle() {
                             var x = document.getElementById('id01');
                             var y = document.getElementById('id02');
                             var edit = document.getElementById("edit");
-                            if (y.style.display === 'none') {
+                            if (y.style.display == 'none') {
                                 edit.innerHTML = "Cancel";
-                                edit.classList.toggle("red");
                                 y.style.display = 'block';
                                 x.style.display = "none";
                             } else {
                                 y.style.display = 'none';
                                 edit.innerHTML = "Edit";
-                                edit.classList.toggle("red", false);
                                 x.style.display = "block";
                             }
                         }
@@ -226,7 +222,7 @@
                 <div class="tab-pane fade col-xs-12" role="tabpanel" id="completed">
                     <div class="table-responsive">
                         <h1><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;Orders</h1>
-                        <% if(orders.isEmpty()) { %>
+                        <% if (orders.isEmpty()) { %>
                         <div class="well well-lg">
                             <p>You don't have any orders yet.</p>
                             <p>Sit comfortably , because it is time to make your first :)</p>
@@ -239,25 +235,27 @@
                                 <% for (Order order : orders) {%>                      
                             <tr class="<% if (order.getOrderStatus() == 0) {
                                     out.print("info");
-                                } else  {
+                                } else {
                                     out.print("success");
-                                } %>">
+                                }%>">
                                 <td>Order ID: <%=order.getOrderID()%></td>
                                 <td><p><%if (order.getOrderStatus() == 0) {
-                                    out.print("Pending"); } else {
-                                    out.print("Completed"); }%></p>
-                                    <div class="collapse" id="<%= order.getOrderID() %>">                                           
+                                                out.print("Pending");
+                                            } else {
+                                                out.print("Completed");
+                                            }%></p>
+                                    <div class="collapse" id="<%= order.getOrderID()%>">                                           
                                         <p>Date: <%=order.getDate()%></p>
                                         <p>Delivery ID:<%=order.getDeliveryID()%></p>
-                                        <p>Invoice ID:<%=order.getInvoiceID() %></p>
-                                        
+                                        <p>Invoice ID:<%=order.getInvoiceID()%></p>
+
                                     </div></td>
                                 <td><button type="button" data-toggle="collapse" data-target="#<%=order.getOrderID()%>" >Click to collapse</button></td>
                             </tr>
 
                             <% }%>
                         </table>
-                        <% } %>
+                        <% }%>
                     </div>
                 </div>
 
@@ -272,11 +270,40 @@
 
         <footer class="w3-container w3-padding-64 w3-center w3-opacity w3-light-grey w3-xlarge">          
             <h3>Johannes Fog A/S - Firskovvej 20 - 2800 Lyngby - CVR-nr. 16314439</h3>
-
         </footer>
+
+
+        <!-- Prevent "space" button script -->
+        <script>
+            $(function () {
+                $('.inputFields').on('keypress', function (e) {
+                    if (e.which == 32)
+                        return false;
+                });
+            });
+        </script>
+
+        <!-- Checks the Re-type of password -->
+        <script>
+            $(function () {
+
+                $('#repasswordReg').on('keyup', function () {
+                    var password = $("#passwordReg").val();
+                    var confirmPassword = $("#repasswordReg").val();
+
+                    if (password != confirmPassword) {
+                        $("#pCheckPassword").html("Passwords do not match!");
+                        $('#RegButton').prop('disabled', true);
+                    } else {
+                        $("#pCheckPassword").html("Passwords match.");
+                        $('#RegButton').prop('disabled', false);
+
+                    }
+                });
+            });
+        </script>            
+
         <!-- Calls logout on button click -->
-
-
         <script>
             $('#logoutFunction').click(function ()
             {
@@ -290,11 +317,6 @@
                 return false;
             });
 
-        </script>    
-        <script>
-            function demo() {
-                document.getElementById('demo').style.display = 'block';
-            }
         </script>
     </body>
 </html>

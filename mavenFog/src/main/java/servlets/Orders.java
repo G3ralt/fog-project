@@ -82,6 +82,7 @@ public class Orders extends HttpServlet {
         } catch (GetAllOrdersException ex) {
             ex.printStackTrace();
             session.setAttribute("error", "GetAllOrdersException");
+            session.removeAttribute("user");
             response.sendRedirect(request.getParameter("from"));
         } catch (GetAllDeliveryException ex) {
             ex.printStackTrace();

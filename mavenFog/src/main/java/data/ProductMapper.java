@@ -86,7 +86,6 @@ public class ProductMapper {
                 products.add(product);
             }
         } catch (SQLException x) {
-            x.printStackTrace();
             throw new GetAllProductsException();
         } finally {
             DB.closeRs(rs);

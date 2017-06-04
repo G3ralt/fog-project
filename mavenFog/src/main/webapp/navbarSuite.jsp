@@ -6,9 +6,26 @@
 <%user = (User) session.getAttribute("user");%>
 <% String errorMessage = ""; %>
 <%
-    if (session.getAttribute("error") != null) {
-        errorMessage = ConnectionException.getExceptionMessage((String) session.getAttribute("error"), session); %>
-<!--Make modal Login to be visible if the first login attempt was failed-->
+    if (session.getAttribute("error") != null && !session.getAttribute("error").equals("LoginError")) {
+        errorMessage = ConnectionException.getExceptionMessage((String) session.getAttribute("error"), session);%>
+
+<!-- Exception modal-->
+<div id="exceptionModal" class="modal" style="overflow-y: scroll; z-index: 10;">
+    <form class="modal-content animate">
+        <div class="imgcontainer">
+            <span onclick="document.getElementById('exceptionModal').style.display = 'none'" class="close" title="Close Modal">&times;</span>
+            <h1 class="w3-container ">Error /Exception/ Occurred!</h1>
+            <div class="imgcontainer alert alert-danger">
+                <strong><%= errorMessage %></strong>
+            </div>
+        </div>
+        <div class="loginContainer">
+        </div>
+    </form>
+</div>
+<!-- Exception modal END -->
+
+<!--Make modal Exception to be visible -->
 <script>
     // Get the modal
     var modal = document.getElementById('exceptionModal');
@@ -88,28 +105,6 @@
                 <div class="imgcontainer alert alert-danger">
                     <strong> Wrong Log In details </strong>
                 </div>
-                <%} else if ("QueryException".equals(session.getAttribute("error"))) {
-                    session.removeAttribute("error"); %>
-                <script>
-                    // Get the modal
-                    var modal = document.getElementById('id01');
-                    // Make modal Login to be visible if the first login attempt was failed
-                    modal.style.display = 'block';
-                </script>
-                <div class="imgcontainer alert alert-danger">
-                    <strong> We can`t process your request at the moment!<br> Error code: Query Exception  </strong>
-                </div>
-                <%} else if ("ConnectionException".equals(session.getAttribute("error"))) {
-                    session.removeAttribute("error"); %>
-                <script>
-                    // Get the modal
-                    var modal = document.getElementById('id01');
-                    // Make modal Login to be visible if the first login attempt was failed
-                    modal.style.display = 'block';
-                </script>
-                <div class="imgcontainer alert alert-danger">
-                    <strong> We can`t access the DataBase at the moment!<br> Error code: Connection Exception  </strong>
-                </div>              
                 <% }%>
 
 
@@ -168,7 +163,7 @@
                     <label><b>Phone number</b></label>
                     <input type="text" placeholder="e.g. Mobile min. 8 numericals" name="phone" title="e.g. 45871001 (8 numericals)" pattern="[0-9]{8,8}" class="inputFields" required>
                     <label><b>Address</b></label>
-                    <input type="text" placeholder="Firskovvej 20" name="adress" title="e.g. Street" class="inputFields" required>
+                    <input type="text" placeholder="Firskovvej 20" name="adress" title="e.g. Street Name 23" pattern="[A-Za-z0-9 ]{5,190}" required>
                     <label><b>Zip code</b></label>
                     <input type="text" placeholder="Local post code" name="zipCode" title="e.g. 2800" pattern="[0-9]{4}" class="inputFields" required>
                     <!-- current URL passed like a hidden field, so after Register, the Servlet will redirect the user back to the same page -->
@@ -213,21 +208,7 @@
             </form>
         </div>
         <!-- LOGOUT END -->
-        <!-- Exception modal-->
-        <div id="exceptionModal" class="modal">
-            <form class="modal-content animate">
-                <div class="imgcontainer">
-                    <span onclick="document.getElementById('exceptionModal').style.display = 'none'" class="close" title="Close Modal">&times;</span>
-                    <h1 class="w3-container ">Exception Occured!</h1>
-                    <div class="imgcontainer alert alert-danger">
-                        <strong><%= errorMessage%></strong>
-                    </div>
-                </div>
-                <div class="loginContainer">
-                </div>
-            </form>
-        </div>
-        <!-- Exception modal END -->
+
 
         <!-- ### SCRIPTS ### -->
         <!-- Close LOGIN ,REGISTER and CARD DETAILS modals -->

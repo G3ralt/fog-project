@@ -156,28 +156,28 @@ public class Admin extends HttpServlet {
                     
                     break;
             }
-
+            //Redirect to Orders servlets in order to refresh the ArrayLists
             request.getRequestDispatcher("Orders").forward(request, response);
         } catch (DeleteOrderException ex) {
             ex.printStackTrace();
             session.setAttribute("error", "DeleteOrderException");
-            response.sendRedirect(request.getParameter("from"));
+            response.sendRedirect("admin/admin.jsp");
         } catch (CreateInvoiceException ex) {
             ex.printStackTrace();
             session.setAttribute("error", "CreateInvoiceException");
-            response.sendRedirect(request.getParameter("from"));
+            response.sendRedirect("admin/admin.jsp");
         } catch (ConnectionException ex) {
             ex.printStackTrace();
             session.setAttribute("error", "ConnectionException");
-            response.sendRedirect(request.getParameter("from"));
+            response.sendRedirect("admin/admin.jsp");
         } catch (QueryException ex) {
             ex.printStackTrace();
             session.setAttribute("error", "QueryException");
-            response.sendRedirect(request.getParameter("from"));
+            response.sendRedirect("admin/admin.jsp");
         } catch (UpdateOrderDetailsException ex) {
             ex.printStackTrace();
             session.setAttribute("error", "UpdateOrderDetailsException");
-            response.sendRedirect(request.getParameter("from"));
+            response.sendRedirect("admin/admin.jsp");
         } finally {
             DB.releaseConnection(OrderMapper.getCon());
             DB.releaseConnection(InvoiceMapper.getCon());

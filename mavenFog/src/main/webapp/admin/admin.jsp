@@ -14,8 +14,25 @@
 <%
     if (session.getAttribute("error") != null) {
         errorMessage = ConnectionException.getExceptionMessage((String) session.getAttribute("error"), session);
-        session.removeAttribute("error"); %>
-<!--Make modal Login to be visible if the first login attempt was failed-->
+        session.removeAttribute("error");%>
+
+<!-- Exception modal-->
+<div id="exceptionModal" class="modal" style="overflow-y: scroll; z-index: 10;">
+    <form class="modal-content animate">
+        <div class="imgcontainer">
+            <span onclick="document.getElementById('exceptionModal').style.display = 'none'" class="close" title="Close Modal">&times;</span>
+            <h1 class="w3-container ">Error /Exception/ Occurred!</h1>
+            <div class="imgcontainer alert alert-danger">
+                <strong><%= errorMessage%></strong>
+            </div>
+        </div>
+        <div class="loginContainer">
+        </div>
+    </form>
+</div>
+<!-- Exception modal END -->
+
+<!--Make modal Exception to be visible d-->
 <script>
     // Get the modal
     var modal = document.getElementById('exceptionModal');
@@ -317,24 +334,6 @@
                 </div>
             </form>
         </div><!-- Logout END -->
-
-        <!-- Exception modal-->
-        <div id="exceptionModal" class="modal">
-            <form class="modal-content animate" action="Carport">
-                <div class="imgcontainer">
-                    <span onclick="document.getElementById('exceptionModal').style.display = 'none'" class="close" title="Close Modal">&times;</span>
-                    <h1 class="w3-container ">Exception Occured!</h1>
-                    <div class="imgcontainer alert alert-danger">
-                        <strong><%= errorMessage%></strong>
-                    </div>
-                </div>
-                <div class="loginContainer">
-                </div>
-            </form>
-        </div>
-        <!-- Exception modal END -->
-
-
 
         <!--PAGE CONTENT-->
         <div class="w3-card-2 w3-container">
@@ -697,8 +696,8 @@
         </footer>
 
         <% if (session.getAttribute("popupUpdateDelivery") != null && session.getAttribute("popupUpdateDelivery").equals("yes")) {
-                 session.removeAttribute("popupUpdateDelivery"); %>
-        
+                session.removeAttribute("popupUpdateDelivery"); %>
+
         <!-- Update Delivery -->
         <div id="UpdateDelivery" class="modal" style="overflow-y: scroll; z-index: 4;">
             <form class="modal-content animate" action="../Admin" method="post">
@@ -732,7 +731,7 @@
             var modal = document.getElementById('UpdateDelivery');
             modal.style.display = 'block';
         </script>
-        <% } %>
+        <% }%>
         <!-- Update Delivery END -->
 
         <!-- Close Create new ,Delete Sales Rep, Finalise, areYouSurel  modals -->

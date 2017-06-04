@@ -1,16 +1,15 @@
 package exceptions;
 
-//Thrown when the connection with DB can`t be established
-
 import javax.servlet.http.HttpSession;
 
 public class ConnectionException extends Exception {
-
+    //Thrown when the connection with DB can`t be established
+    
     public static String getExceptionMessage(String error, HttpSession session) {
         String errorMessage = "";
         switch (error) {
             case "CreateCustomerException":
-                errorMessage = "We can`t create your username at the moment";
+                errorMessage = "We can`t create your account at the moment. Possible reason: email is already used";
                 session.removeAttribute("error");
                 break;
             case "CreateSalesRepException":
@@ -65,6 +64,14 @@ public class ConnectionException extends Exception {
                 errorMessage = "We can`t show you the invoices at the moment";
                 session.removeAttribute("error");
                 break;
+            case "QueryException":
+                errorMessage = "We can`t process your request at the moment";
+                session.removeAttribute("error");
+                break;
+            case "ConnectionException":
+                errorMessage = "We can`t access the Database at the moment";
+                session.removeAttribute("error");
+                break;    
         }
         return errorMessage;
     }
