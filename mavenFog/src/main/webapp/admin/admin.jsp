@@ -58,9 +58,9 @@
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
         <script>$(function () {
-                $("#datepicker").datepicker();
-                $("#datepicker").datepicker("option", "dateFormat", "yy-mm-dd");
-            });</script>
+        $("#datepicker").datepicker();
+        $("#datepicker").datepicker("option", "dateFormat", "yy-mm-dd");
+    });</script>
     </head>
     <body>
         <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -317,7 +317,7 @@
                 </div>
             </form>
         </div><!-- Logout END -->
-        
+
         <!-- Exception modal-->
         <div id="exceptionModal" class="modal">
             <form class="modal-content animate" action="Carport">
@@ -334,20 +334,28 @@
         </div>
         <!-- Exception modal END -->
 
+
+
         <!--PAGE CONTENT-->
         <div class="w3-card-2 w3-container">
             <h1>Your Admin Dashboard</h1>
             <ul class="nav nav-tabs">
-                <li role="presentation" class="active"><a class="btn btn-default btn-lg active" style="box-shadow: 10px 10px 5px #888888;" href="#pending" role="tab" id="pending-tab" data-toggle="tab"><span class="label label-default"><span class="badge"></span> Pending&nbsp;<span class="glyphicon glyphicon-step-forward"></span></span></a></li>
+                <li role="presentation" class="<%  if (session.getAttribute("popupUpdateDelivery") == null) {
+                        out.print("active");
+                    } %>"><a class="btn btn-default btn-lg active" style="box-shadow: 10px 10px 5px #888888;" href="#pending" role="tab" id="pending-tab" data-toggle="tab"><span class="label label-default"><span class="badge"></span> Pending&nbsp;<span class="glyphicon glyphicon-step-forward"></span></span></a></li>
                 <li role="presentation" class=""><a class="btn btn-default btn-lg active" style="box-shadow: 10px 10px 5px #888888;" href="#completed" role="tab" id="profile-tab" data-toggle="tab"><span class="label label-default">Completed Orders&nbsp;<span class="glyphicon glyphicon-th-list"></span></span></a></li>
-                <li role="presentation" class=""><a class="btn btn-default btn-lg active" style="box-shadow: 10px 10px 5px #888888;" href="#delivery" role="tab" id="profile-tab" data-toggle="tab"><span class="label label-default"><span class="badge"><%= deliveries.size()%></span> Deliveries&nbsp;<span class="glyphicon glyphicon-send"></span></span></a></li>
+                <li role="presentation" class="<% if (session.getAttribute("popupUpdateDelivery") != null) {
+                        out.print("active");
+                    }%>"><a class="btn btn-default btn-lg active" style="box-shadow: 10px 10px 5px #888888;" href="#delivery" role="tab" id="profile-tab" data-toggle="tab"><span class="label label-default"><span class="badge"><%= deliveries.size()%></span> Deliveries&nbsp;<span class="glyphicon glyphicon-send"></span></span></a></li>
                 <li role="presentation" class=""><a class="btn btn-default btn-lg active" style="box-shadow: 10px 10px 5px #888888;" href="#invoice" role="tab" id="profile-tab" data-toggle="tab"><span class="label label-default"><span class="badge"><%= invoices.size()%></span> Invoices&nbsp;<span class="glyphicon glyphicon-list-alt"></span></span></a></li>
                 <li role="presentation" class=""><a class="btn btn-default btn-lg active" style="box-shadow: 10px 10px 5px #888888;" href="#product" role="tab" id="profile-tab" data-toggle="tab"><span class="label label-default"><span class="badge"><%= products.size()%></span> Products&nbsp;<span class="glyphicon glyphicon-home"></span></span></a></li>
                 <li role="presentation" class=""><a class="btn btn-default btn-lg active" style="box-shadow: 10px 10px 5px #888888;" href="#user" role="tab" id="profile-tab" data-toggle="tab"><span class="label label-default"><span class="badge"><%= users.size()%></span> Users&nbsp;<span class="glyphicon glyphicon-user"></span></span></a></li>
             </ul>
             <div class="tab-content" id="myTabContent">
                 <!--PENDING TAB-->
-                <div class="tab-pane fade active in" role="tabpanel" id="pending" style="box-shadow: 10px 10px 5px #888888;">
+                <div class="tab-pane fade <%  if (session.getAttribute("popupUpdateDelivery") == null) {
+                        out.print("active in");
+                    } %>" role="tabpanel" id="pending" style="box-shadow: 10px 10px 5px #888888;">
                     <h1><span class="glyphicon glyphicon-step-forward"></span>&nbsp;Pending Orders:</h1>
                     <div class="row">
                         <div class="col-lg-12">
@@ -372,9 +380,9 @@
                                             </thead>
                                             <tbody>
                                                 <% for (Order pending : orders) {%>
-                                                <% if(pending.getOrderStatus()==0) { %>
+                                                <% if (pending.getOrderStatus() == 0) {%>
                                                 <tr class="info">
-                                                        
+
                                                     <td><%= pending.getOrderID()%></td>
                                                     <td><%= pending.getProductID()%></td>
                                                     <td><%= pending.getDate()%></td>
@@ -387,7 +395,8 @@
                                                         </form>
                                                     </td>
                                                 </tr>
-                                                <% } } %>
+                                                <% }
+                                                    } %>
                                             </tbody>
                                         </table>
 
@@ -454,7 +463,9 @@
                 </div>
 
                 <!--DELIVERY TAB-->
-                <div class="tab-pane fade" role="tabpanel" id="delivery" style="box-shadow: 10px 10px 5px #888888;">
+                <div class="tab-pane fade <% if (session.getAttribute("popupUpdateDelivery") != null) {
+                        out.print("active in");
+                    } %>" role="tabpanel" id="delivery" style="box-shadow: 10px 10px 5px #888888;">
                     <h1><span class="glyphicon glyphicon-send"></span>&nbsp;Deliveries:</h1>
                     <div class="row">
                         <div class="col-lg-12">
@@ -497,12 +508,23 @@
                                                         } else {
                                                             out.print(delivery.getMoreInfo());
                                                         }%></td>
-                                                    <td><% if (delivery.getDeliveryStatus() == 0) { %>
-                                                        <button type="button" class="btn btn-success"><span class="glyphicon glyphicon-ok"></span>&nbsp;Complete</button>
-                                                        <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span>&nbsp;Cancel</button>
+                                                    <td>
+
+                                                        <% if (delivery.getDeliveryStatus() == 0) {%>
+                                                        <form action="../Admin" method="POST">
+                                                            <input type="hidden" name="deliveryID" value="<%=delivery.getDeliveryID()%>">
+                                                            <input type="hidden" name="admin" value="completeDelivery">
+                                                            <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-ok"></span>&nbsp;Complete</button>
+                                                        </form>
+                                                        <form action="../Admin" method="POST">
+                                                            <input type="hidden" name="deliveryID" value="<%=delivery.getDeliveryID()%>">
+                                                            <input type="hidden" name="admin" value="popupUpdateDelivery">
+                                                            <button type="submit" class="btn btn-warning"><span class="glyphicon glyphicon-edit"></span>&nbsp;Update</button>
+                                                        </form>
                                                         <% } else { %>
                                                         <button type="button" class="btn btn-info disabled"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Cannot Change</button>
                                                         <% } %>
+
                                                     </td>
                                                 </tr>
                                                 <% }%>
@@ -641,7 +663,7 @@
                                                     <td><%= userCell.getAddress()%></td>
                                                     <td><%= userCell.getZipCode()%></td>
                                                     <td><%= userCell.getEmail()%></td>
-                                                    <td><%= userCell.getUserStatus() %>
+                                                    <td><%= userCell.getUserStatus()%>
                                                     </td>
 
                                                 </tr>
@@ -674,12 +696,52 @@
             <h3>Johannes Fog A/S - Firskovvej 20 - 2800 Lyngby - CVR-nr. 16314439</h3>
         </footer>
 
+        <% if (session.getAttribute("popupUpdateDelivery") != null && session.getAttribute("popupUpdateDelivery").equals("yes")) {
+                 session.removeAttribute("popupUpdateDelivery"); %>
+        
+        <!-- Update Delivery -->
+        <div id="UpdateDelivery" class="modal" style="overflow-y: scroll; z-index: 4;">
+            <form class="modal-content animate" action="../Admin" method="post">
+                <div class="imgcontainer">
+                    <span onclick="document.getElementById('UpdateDelivery').style.display = 'none'" class="close"  title="Close Modal">&times;</span>
+                    <h1 class="w3-container ">Pick new Delivery Date:</h1>
+                </div>
+                <div class="loginContainer">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="panel panel-info">
+                                    <div class="panel-heading">Pick new Delivery Date:</div>
+                                    <div class="panel-body">
+                                        <input type="text" placeholder="Pick Date" id="datepicker" name="deliveryDate" size="30" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="hidden" name="admin" value="updateDeliveryDate">
+                            <div class="col-lg-6">
+                                <button type="submit" class="btn btn-warning btn-lg pull-right"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Update Date</button>
+                            </div>
+                            <!-- form end-->
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <script>
+            // Get the modal
+            var modal = document.getElementById('UpdateDelivery');
+            modal.style.display = 'block';
+        </script>
+        <% } %>
+        <!-- Update Delivery END -->
+
         <!-- Close Create new ,Delete Sales Rep, Finalise, areYouSurel  modals -->
         <script>
             // Get the modal
             var Createmodal = document.getElementById('CreateSalesRep');
             var Deletemodal = document.getElementById('DeleteSalesRep');
             var areYouSurel = document.getElementById('areYouSure');
+            var Finalise = document.getElementById('Finalise');
 
             // When the user clicks anywhere outside of the modal, close it
             window.onclick = function (event) {

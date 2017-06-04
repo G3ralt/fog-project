@@ -78,8 +78,8 @@ public class DB {
             throw new QueryException();
         
         } finally {
-            closeStmt(stmt);
             closeRs(rs);
+            closeStmt(stmt);
         }
         return uniqueID;
     }

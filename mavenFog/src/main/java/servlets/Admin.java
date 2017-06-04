@@ -13,11 +13,6 @@ import exceptions.ConnectionException.QueryException;
 import exceptions.ConnectionException.UpdateOrderDetailsException;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Date;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -51,12 +46,11 @@ public class Admin extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
         double totalPrice;
-        String form, orderID, deliveryID;
+        String form, orderID, deliveryID, deliveryDate;
         Order order;
         User user, salesRep;
         Product product;
         Delivery delivery;
-        Date date;
         try {
             //Create connections to the DB
             InvoiceMapper.setConnection();
@@ -71,14 +65,19 @@ public class Admin extends HttpServlet {
                 case "finaliseOrder":
                     //Get the orderID from hidden input
                     orderID = request.getParameter("orderID");
+                    
                     //Extract the info for this order from DB
                     order = OrderMapper.getOrder(orderID);
+                    
                     //Get the user who created this order
                     user = UserMapper.getUserByID(order.getCustomerID());
+                    
                     //Get the product corresponding to the order
                     product = ProductMapper.getProduct(order.getProductID());
+                    
                     //Get the delivery for this order
                     delivery = DeliveryMapper.getDelivery(order.getOrderID());
+                    
                     //Calculate the totalprice of the invoice
                     totalPrice = product.getPrice() + delivery.getPrice();
 
@@ -93,8 +92,10 @@ public class Admin extends HttpServlet {
                 case "deleteOrder":
                     //get the order object from the popup
                     order = (Order) session.getAttribute("order");
+                    
                     //delete the order from DB
                     OrderMapper.deleteOrder(order.getOrderID());
+                    
                     break;
 
                 case "createInvoice":
@@ -108,10 +109,10 @@ public class Admin extends HttpServlet {
                     OrderMapper.updateSalesRep(salesRep.getAccountID(), order.getOrderID());
                     
                     //Get the date the sales rep chose 
-                    date = Date.valueOf(request.getParameter("deliveryDate"));
+                    deliveryDate = request.getParameter("deliveryDate");
                     
                     //Update the date in the DB
-                    DeliveryMapper.updateDeliveryDate(date, order.getOrderID());
+                    DeliveryMapper.updateDeliveryDate(deliveryDate, order.getDeliveryID());
                     
                     //Get the totalPrice of the invoice
                     totalPrice = (double) session.getAttribute("totalPrice");
@@ -126,18 +127,33 @@ public class Admin extends HttpServlet {
 
                 case "completeDelivery":
                     //get the hidden input
-                    deliveryID = (String) request.getParameter("deliveryID");
+                    deliveryID = request.getParameter("deliveryID");
+                    
                     //Update the status in DB
                     DeliveryMapper.updateDeliveryStatus(1, deliveryID);
+                    
                     break;
+                    
+                case "popupUpdateDelivery":
+                    //Set the popup to show onclick
+                    session.setAttribute("popupUpdateDelivery", "yes");
+                    
+                    //Get the deliveryID from the hidden input and set it to the session
+                    session.setAttribute("deliveryID", request.getParameter("deliveryID"));
+                    
+                    response.sendRedirect("admin/admin.jsp");
+                    return;
 
                 case "updateDeliveryDate":
-                    //Get the hidden input
-                    deliveryID = (String) request.getParameter("deliveryID");
+                    //Get the deliveryID from the session 
+                    deliveryID = (String) session.getAttribute("deliveryID");
+                    
                     //Get the updated Date from the session
-                    date = (Date) session.getAttribute("deliveryDate");
+                    deliveryDate = request.getParameter("deliveryDate");
+                    
                     //Update the Date in DB
-                    DeliveryMapper.updateDeliveryDate(date, deliveryID);
+                    DeliveryMapper.updateDeliveryDate(deliveryDate, deliveryID);
+                    
                     break;
             }
 

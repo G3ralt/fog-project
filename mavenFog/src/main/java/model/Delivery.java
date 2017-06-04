@@ -1,14 +1,11 @@
 package model;
 
-import java.sql.Date;
-
 public class Delivery {
-    private final String deliveryID, moreInfo, orderID, customerID, salesRepID;
+    private final String deliveryID, moreInfo, orderID, customerID, salesRepID, deliveryDate;
     private final int deliveryStatus;
-    private final Date deliveryDate;
     private final double price;
     
-    public Delivery(String deliveryID, int deliveryStatus, String orderID, String customerID, String salesRepID, Date deliveryDate, double price, String moreInfo) {
+    public Delivery(String deliveryID, int deliveryStatus, String orderID, String customerID, String salesRepID, String deliveryDate, double price, String moreInfo) {
         this.deliveryID = deliveryID;
         this.deliveryStatus = deliveryStatus;
         this.orderID = orderID;
@@ -39,7 +36,7 @@ public class Delivery {
         return salesRepID;
     }
 
-    public Date getDeliveryDate() {
+    public String getDeliveryDate() {
         return deliveryDate;
     }
 
