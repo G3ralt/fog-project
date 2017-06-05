@@ -305,7 +305,7 @@ public class UserMapper {
     //Updates the phone from the update details form
     //Throws UpdateUserInfoException if the update fails
     public static void updatePhone(String phone, String accountID) throws UpdateUserInfoException {
-        String sql = "UPDATE users SET phone_number = '" + Integer.parseInt(phone) + "' WHERE account_id = '" + accountID + "';";
+        String sql = "UPDATE users SET phone_number = " + Integer.parseInt(phone) + " WHERE account_id = '" + accountID + "';";
         String set = "SET SQL_SAFE_UPDATES = 0;";
         String reset = "SET SQL_SAFE_UPDATES = 1;";
         PreparedStatement stmt = null;

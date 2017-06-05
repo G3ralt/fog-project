@@ -29,7 +29,7 @@ public class DeliveryMapper {
     //Throws ConnectionException if we cant connect to the OrderMapper
     //Throws CreateDelivery Exception if we cant execute the query
     public static String createDelivery(String orderID, String moreInfo, double price) throws CreateDeliveryException {
-        String sql = "INSERT into delivery (delivery_id, delivery_status, more_info, price) VALUES (? , 0, ?, ?)";
+        String sql = "INSERT into delivery (delivery_id, delivery_status, more_info, price) VALUES (? , 0, ?, ?);";
         PreparedStatement stmt = null;
         String deliveryID = null;
         try {
@@ -58,7 +58,7 @@ public class DeliveryMapper {
 
     //Deletes a delivery input from the Database in case of failure in the createDelivery() method
     private static void deleteDelivery(String deliveryID) {
-        String sql = "DELETE FROM delivery WHERE delivery_id = '" + deliveryID + "'";
+        String sql = "DELETE FROM delivery WHERE delivery_id = '" + deliveryID + "';";
         String set = "SET SQL_SAFE_UPDATES = 0;";
         String reset = "SET SQL_SAFE_UPDATES = 1;";
         PreparedStatement stmt = null;
@@ -80,7 +80,7 @@ public class DeliveryMapper {
     //Throws GetAllDeliveries Exception if the method is not executable or the list is empty
     public static ArrayList<Delivery> getAllDelivery() throws GetAllDeliveryException {
         ArrayList<Delivery> deliveries = new ArrayList<>();
-        String sql = "SELECT * FROM delivery,orders NATURAL JOIN order_details WHERE delivery.delivery_id = order_details.delivery_id";
+        String sql = "SELECT * FROM delivery,orders NATURAL JOIN order_details WHERE delivery.delivery_id = order_details.delivery_id;";
         int deliveryStatus;
         double price;
         String deliveryID, moreInfo, orderID, customerID, salesRepID, deliveryDate;
@@ -117,7 +117,7 @@ public class DeliveryMapper {
     //Returns a Delivery object 
     //Throws Query Exception if the method is not executable
     public static Delivery getDelivery(String orderID) throws QueryException {
-        String sql = "SELECT * FROM delivery,orders NATURAL JOIN order_details WHERE delivery.delivery_id = order_details.delivery_id AND order_id = '" + orderID + "'";
+        String sql = "SELECT * FROM delivery,orders NATURAL JOIN order_details WHERE delivery.delivery_id = order_details.delivery_id AND order_id = '" + orderID + "';";
         int deliveryStatus;
         double price;
         String deliveryID, moreInfo, customerID, salesRepID, deliveryDate;
@@ -150,7 +150,7 @@ public class DeliveryMapper {
     //Updates the Delivery status when the delivery is cancelled or completed
     //Throws QueryException if the input is not the right data type or the querry is wrong
     public static void updateDeliveryStatus(int delivery_status, String deliveryID) throws QueryException {
-        String sql = "UPDATE delivery SET delivery_status = " + delivery_status + " WHERE delivery_id = '" + deliveryID + "'";
+        String sql = "UPDATE delivery SET delivery_status = " + delivery_status + " WHERE delivery_id = '" + deliveryID + "';";
         String set = "SET SQL_SAFE_UPDATES = 0;";
         String reset = "SET SQL_SAFE_UPDATES = 1;";
         PreparedStatement stmt = null;

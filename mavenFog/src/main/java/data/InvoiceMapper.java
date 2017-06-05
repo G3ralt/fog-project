@@ -30,7 +30,7 @@ public class InvoiceMapper {
     //Throws ConnectionException if we cant connect to the OrderMapper
     //Throws CreateInvoiceException if we cant execute the query
     public static String createInvoice(double totalPrice, String orderID) throws CreateInvoiceException {
-        String sql = "INSERT INTO invoice (invoice_id, creation_date, total_price) VALUES (?, curdate(), ?)";
+        String sql = "INSERT INTO invoice (invoice_id, creation_date, total_price) VALUES (?, curdate(), ?);";
         String invoiceID = "";
         PreparedStatement stmt = null;
         try {
@@ -58,7 +58,7 @@ public class InvoiceMapper {
 
     //Deletes an invoice input from the Database in case of failure in the createInvoice() method
     private static void deleteInvoice(String invoiceID) {
-        String sql = "DELETE FROM invoice WHERE invoice_id = '" + invoiceID + "'";
+        String sql = "DELETE FROM invoice WHERE invoice_id = '" + invoiceID + "';";
         String set = "SET SQL_SAFE_UPDATES = 0;";
         String reset = "SET SQL_SAFE_UPDATES = 1;";
         PreparedStatement stmt = null;
@@ -80,7 +80,7 @@ public class InvoiceMapper {
     //Throws GetAllInvoicesException if the method is not executable or the list is empty
     public static ArrayList<Invoice> getAllInvoice() throws GetAllInvoicesException {
         ArrayList<Invoice> invoices = new ArrayList<>();
-        String sql = "SELECT * FROM invoice,orders NATURAL JOIN order_details WHERE invoice.invoice_id = order_details.invoice_id";
+        String sql = "SELECT * FROM invoice,orders NATURAL JOIN order_details WHERE invoice.invoice_id = order_details.invoice_id;";
         String invoiceID, orderID, productID, customerID, salesRepID;
         double totalPrice;
         Date invoiceDate;
@@ -114,7 +114,7 @@ public class InvoiceMapper {
     //Throws GetAllInvoicesException if the method is not executable or the list is empty
     public static ArrayList<Invoice> getAllInvoiceByCustomer(String customerID) throws GetAllInvoicesException {
         ArrayList<Invoice> invoices = new ArrayList<>();
-        String sql = "SELECT * FROM invoice,orders NATURAL JOIN order_details WHERE invoice.invoice_id = order_details.invoice_id AND customer_id = '" + customerID + "'";
+        String sql = "SELECT * FROM invoice,orders NATURAL JOIN order_details WHERE invoice.invoice_id = order_details.invoice_id AND customer_id = '" + customerID + "';";
         String invoiceID, orderID, productID, salesRepID;
         double totalPrice;
         Date invoiceDate;
