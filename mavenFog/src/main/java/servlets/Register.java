@@ -58,6 +58,7 @@ public class Register extends HttpServlet {
                 case 0:
                      //Create new user in the database
                     UserMapper.createCustomer(email, password, fName, lName, phone, adress, zipCode);
+                    session.setAttribute("regOK", "successfulReg");
                     break;
                 case 1:
                     //Create new SalesRep in the DB

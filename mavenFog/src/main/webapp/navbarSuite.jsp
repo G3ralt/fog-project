@@ -106,6 +106,18 @@
                     <strong> Wrong Log In details </strong>
                 </div>
                 <% }%>
+                <% if ("successfulReg".equals(session.getAttribute("regOK"))) {
+                        session.removeAttribute("regOK"); %>
+                <!--Make modal Login to be visible if the first login attempt was failed-->
+                <script>
+                    // Get the modal
+                    var modal = document.getElementById('id01');
+                    modal.style.display = 'block';
+                </script>
+                <div class="imgcontainer alert alert-success">
+                    <strong>  Registration Successful, Welcome :)</strong>
+                </div>
+                <% }%>
 
 
                 <div class="loginContainer">

@@ -211,7 +211,7 @@ public class OrderMapper {
     //Used to automatically update the sales rep who finilized an order
     //Throws Update OrderDetails Exception if the update fails
     public static void updateSalesRep(String salesRep_id, String order_id) throws UpdateOrderDetailsException {
-        String sql = "UPDATE order_details SET sales_rep_id = " + salesRep_id + " WHERE order_id = '" + order_id + "'";
+        String sql = "UPDATE order_details SET sales_rep_id = '" + salesRep_id + "' WHERE order_id = '" + order_id + "'";
         String set = "SET SQL_SAFE_UPDATES = 0";
         String reset = "SET SQL_SAFE_UPDATES = 1";
         PreparedStatement stmt = null;
@@ -233,7 +233,7 @@ public class OrderMapper {
     //Used to automatically update the delivery ID when delivery is created
     //Throws Update OrderDetails Exception if the update fails
     public static void updateDeliveryID(String delivery_id, String order_id) throws UpdateOrderDetailsException {
-        String sql = "UPDATE order_details SET delivery_id = " + delivery_id + " WHERE order_id = '" + order_id + "'";
+        String sql = "UPDATE order_details SET delivery_id = '" + delivery_id + "' WHERE order_id = '" + order_id + "'";
         String set = "SET SQL_SAFE_UPDATES = 0;";
         String reset = "SET SQL_SAFE_UPDATES = 1;";
         PreparedStatement stmt = null;
@@ -255,7 +255,7 @@ public class OrderMapper {
     //Used to automatically update the invoice ID when invoice is created
     //Throws Update OrderDetails Exception if the update fails
     public static void updateInvoiceID(String invoice_id, String order_id) throws UpdateOrderDetailsException {
-        String sql = "UPDATE order_details SET invoice_id = " + invoice_id + " WHERE order_id = '" + order_id + "'";
+        String sql = "UPDATE order_details SET invoice_id = '" + invoice_id + "' WHERE order_id = '" + order_id + "'";
         String set = "SET SQL_SAFE_UPDATES = 0;";
         String reset = "SET SQL_SAFE_UPDATES = 1;";
         PreparedStatement stmt = null;

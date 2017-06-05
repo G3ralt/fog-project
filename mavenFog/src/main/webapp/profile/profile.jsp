@@ -74,7 +74,7 @@
         </script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
         <style>    
-            #id02 {
+            #editProfile {
                 display: none;
             }
         </style>
@@ -125,11 +125,12 @@
             </form>
         </div><!-- Logout END -->
 
-        
+
         <div style="margin-top: 70px;"></div>
-        
+
         <div class="w3-white w3-card-2 w3-container w3-margin w3-padding-32">
-            <h1>Your page:</h1>
+            <h1>Your very own page</h1>
+            <hr>
             <ul class="nav nav-tabs">
 
                 <li role="presentation" class="active"><a href="#pending" id="pending-tab" role="tab" data-toggle="tab"> Profile Info&nbsp;</a></li>
@@ -141,8 +142,9 @@
             </ul>
 
             <div class="tab-content" id="myTabContent">
+                <!-- Profile info Tab -->
                 <div class="tab-pane fade active in" role="tabpanel" id="pending">
-                    <h1>Profile Info:</h1>  
+                    <h1><span class="glyphicon glyphicon-user"></span>&nbsp;Profile Info :</h1>
                     <div id="id01" class="w3-padding-16 w3-margin-32 w3-left">
                         <table class="w3-table w3-bordered w3-padding" cellpadding="5">
                             <tr>
@@ -174,10 +176,14 @@
                                 <td><%= accountID%></td>
                             </tr>
                         </table>
+
                     </div>
+                    <!-- Profile info END -->
 
-
-                    <div id="id02">
+                    <a id="edit" class="btn btn-warning" onclick="document.getElementById('editProfile').style.display = 'block'">Edit</a>
+                    
+                    <!-- Edit Profile Modal -->
+                    <div class="modal" id="editProfile" style="overflow-y: scroll">
                         <form class="modal-content animate" action="../Profile" method="POST">
                             <div class="loginContainer">
                                 <label><b>Email</b></label>
@@ -195,30 +201,15 @@
                                 <input type="text" placeholder="<%= zipCode%>" name="zipCode" title="e.g. 2800" pattern="[0-9]{4}" class="inputFields">
 
                                 <button type="submit" class="btn btn-success" id="RegButton"><span class="glyphicon glyphicon-ok"></span>&nbsp;Submit</button>
+                                <button type="button" class="btn btn-danger pull-right" onclick="document.getElementById('editProfile').style.display = 'none'"><span class="glyphicon glyphicon-remove"></span>&nbsp;Cancel</button>
                             </div>
                         </form>
                     </div>
-                    <div class="w3-padding-16 w3-margin-32 w3-left">
-                        <a id="edit" class="btn btn-warning" onclick="toggle()">Edit</a>
-                    </div>
-                    <script>
-                        function toggle() {
-                            var x = document.getElementById('id01');
-                            var y = document.getElementById('id02');
-                            var edit = document.getElementById("edit");
-                            if (y.style.display == 'none') {
-                                edit.innerHTML = "Cancel";
-                                y.style.display = 'block';
-                                x.style.display = "none";
-                            } else {
-                                y.style.display = 'none';
-                                edit.innerHTML = "Edit";
-                                x.style.display = "block";
-                            }
-                        }
-                    </script>
-
+                    <!-- Edit Profile END -->
                 </div>
+                <!-- Profile info Tab END-->
+
+                <!-- Orders Tab -->
                 <div class="tab-pane fade col-xs-12" role="tabpanel" id="completed">
                     <div class="table-responsive">
                         <h1><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;Orders</h1>
@@ -240,10 +231,10 @@
                                 }%>">
                                 <td>Order ID: <%=order.getOrderID()%></td>
                                 <td><p><%if (order.getOrderStatus() == 0) {
-                                                out.print("Pending");
-                                            } else {
-                                                out.print("Completed");
-                                            }%></p>
+                                        out.print("Pending");
+                                    } else {
+                                        out.print("Completed");
+                                    }%></p>
                                     <div class="collapse" id="<%= order.getOrderID()%>">                                           
                                         <p>Date: <%=order.getDate()%></p>
                                         <p>Delivery ID:<%=order.getDeliveryID()%></p>
@@ -258,11 +249,14 @@
                         <% }%>
                     </div>
                 </div>
+                <!-- Orders Tab END-->
 
+                <!-- Upload Picture Tab--> 
                 <div class="tab-pane fade" role="tabpanel" id="cancelled">
-                    <h1>Upload your carport picture</h1>
+                    <h1><span class="glyphicon glyphicon-picture"></span>&nbsp;Upload a picture of your carport :</h1>
+                </div>
+                <!-- Upload Picture Tab END -->
 
-                </div>                
             </div>
         </div>
 
@@ -301,7 +295,20 @@
                     }
                 });
             });
-        </script>            
+        </script>
+        
+        <!-- Close Edit Profile Details modal -->
+        <script>
+            // Get the modal
+            var editProfile = document.getElementById('editProfile');
+
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function (event) {
+                if (event.target == editProfile) {
+                    editProfile.style.display = 'none';
+                }
+            }
+        </script>
 
         <!-- Calls logout on button click -->
         <script>
