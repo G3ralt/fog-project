@@ -269,8 +269,16 @@
                                                     <td><%= product.getInnerHeight()%></td>
                                                     <td><%= product.getWidth()%></td>
                                                     <td><%= product.getLength()%></td>
-                                                    <td><%= product.getHasShed()%></td>
-                                                    <td><%= product.getRooftopType()%></td>
+                                                    <td><% if (product.getHasShed() == 1) {
+                                                        out.print("Yes");
+                                                    } else {
+                                                        out.print("No");
+                                                    };%></td>
+                                                    <td><% if (product.getRooftopType() == 1) {
+                                                        out.print("Hipped");
+                                                    } else {
+                                                        out.print("Flat");
+                                                    };%></td>
                                                     <td><%= product.getName()%></td>
                                                     <td><%= product.getRoofAngle()%></td>
                                                     <td><%= product.getShedWidth()%></td>
@@ -341,11 +349,11 @@
         <div class="w3-card-2 w3-container">
             <h1>Your Admin Dashboard</h1>
             <ul class="nav nav-tabs">
-                <li role="presentation" class="<%  if (session.getAttribute("popupUpdateDelivery") == null) {
+                <li role="presentation" class="<%  if (session.getAttribute("popupUpdateDelivery") == null && session.getAttribute("showDeliveryTab") == null) {
                         out.print("active");
                     } %>"><a class="btn btn-default btn-lg active" style="box-shadow: 10px 10px 5px #888888;" href="#pending" role="tab" id="pending-tab" data-toggle="tab"><span class="label label-default"><span class="badge"></span> Pending&nbsp;<span class="glyphicon glyphicon-step-forward"></span></span></a></li>
                 <li role="presentation" class=""><a class="btn btn-default btn-lg active" style="box-shadow: 10px 10px 5px #888888;" href="#completed" role="tab" id="profile-tab" data-toggle="tab"><span class="label label-default">Completed Orders&nbsp;<span class="glyphicon glyphicon-th-list"></span></span></a></li>
-                <li role="presentation" class="<% if (session.getAttribute("popupUpdateDelivery") != null) {
+                <li role="presentation" class="<% if (session.getAttribute("popupUpdateDelivery") != null || session.getAttribute("showDeliveryTab") != null) {
                         out.print("active");
                     }%>"><a class="btn btn-default btn-lg active" style="box-shadow: 10px 10px 5px #888888;" href="#delivery" role="tab" id="profile-tab" data-toggle="tab"><span class="label label-default"><span class="badge"><%= deliveries.size()%></span> Deliveries&nbsp;<span class="glyphicon glyphicon-send"></span></span></a></li>
                 <li role="presentation" class=""><a class="btn btn-default btn-lg active" style="box-shadow: 10px 10px 5px #888888;" href="#invoice" role="tab" id="profile-tab" data-toggle="tab"><span class="label label-default"><span class="badge"><%= invoices.size()%></span> Invoices&nbsp;<span class="glyphicon glyphicon-list-alt"></span></span></a></li>
@@ -354,7 +362,7 @@
             </ul>
             <div class="tab-content" id="myTabContent">
                 <!--PENDING TAB-->
-                <div class="tab-pane fade <%  if (session.getAttribute("popupUpdateDelivery") == null) {
+                <div class="tab-pane fade <%  if (session.getAttribute("popupUpdateDelivery") == null && session.getAttribute("showDeliveryTab") == null) {
                         out.print("active in");
                     } %>" role="tabpanel" id="pending" style="box-shadow: 10px 10px 5px #888888;">
                     <h1><span class="glyphicon glyphicon-step-forward"></span>&nbsp;Pending Orders:</h1>
@@ -464,8 +472,9 @@
                 </div>
 
                 <!--DELIVERY TAB-->
-                <div class="tab-pane fade <% if (session.getAttribute("popupUpdateDelivery") != null) {
+                <div class="tab-pane fade <% if (session.getAttribute("popupUpdateDelivery") != null || session.getAttribute("showDeliveryTab") != null) {
                         out.print("active in");
+                        session.removeAttribute("showDeliveryTab");
                     } %>" role="tabpanel" id="delivery" style="box-shadow: 10px 10px 5px #888888;">
                     <h1><span class="glyphicon glyphicon-send"></span>&nbsp;Deliveries:</h1>
                     <div class="row">
@@ -485,7 +494,8 @@
                                                     <th>Change Date</th>
                                             </thead>
                                             <tbody>
-                                                <% for (Delivery delivery : deliveries) {%>
+                                                <% for (Delivery delivery : deliveries) { %>
+                                                <% if(Order.findOrderStatus(delivery.getDeliveryID(), orders) == 1) { %>
                                                 <tr class="<%if (delivery.getDeliveryStatus() == 0) {
                                                         out.print("info");
                                                     } else if (delivery.getDeliveryStatus() == 1) {
@@ -525,10 +535,11 @@
                                                         <% } else { %>
                                                         <button type="button" class="btn btn-info disabled"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Cannot Change</button>
                                                         <% } %>
-
+                                                        
                                                     </td>
                                                 </tr>
-                                                <% }%>
+                                                <%  } %> <!-- inner for loop end -->
+                                                <% } %> <!-- for loop end-->
                                             </tbody>
                                         </table>
                                     </div>

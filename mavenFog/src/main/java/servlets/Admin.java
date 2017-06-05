@@ -132,6 +132,9 @@ public class Admin extends HttpServlet {
                     //Update the status in DB
                     DeliveryMapper.updateDeliveryStatus(1, deliveryID);
                     
+                    //Set an attribute to make the Delivery Tab active
+                    session.setAttribute("showDeliveryTab", "yes");
+                    
                     break;
                     
                 case "popupUpdateDelivery":

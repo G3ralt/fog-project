@@ -1,6 +1,7 @@
 package model;
 
 import java.sql.Date;
+import java.util.ArrayList;
 
 public class Order {
     private final String orderID, productID, salesRepID, deliveryID, invoiceID, customerID;
@@ -18,6 +19,17 @@ public class Order {
         this.orderStatus = orderStatus;
     }
 
+    public static int findOrderStatus(String deliveryID, ArrayList<Order> orders) {
+        int orderStatus = 0;
+        for (Order order : orders) {
+            if (order.getDeliveryID().equals(deliveryID)) {
+                orderStatus = order.getOrderStatus();
+                break;
+            }
+        }
+        return orderStatus;
+    }
+    
     public int getOrderStatus() {
         return orderStatus;
     }

@@ -6,9 +6,9 @@ INSERT INTO users (account_id, email, password, first_name, last_name, phone_num
 INSERT INTO users (account_id, email, password, first_name, last_name, phone_number, address, zip_code, role, creation_date, user_status) VALUES ('6', 'petru@fog.dk','69696969','Petru','Catana',00077999,'@home789', 2300, 1, CURDATE(), 1);
 INSERT INTO users (account_id, email, password, first_name, last_name, phone_number, address, zip_code, role, creation_date, user_status) VALUES ('7', 'alexandar@fog.dk','69696969','Alexandar','Osenov',66699000,'@home101', 3460, 1, CURDATE(), 1);
 INSERT INTO products (product_id, price, inner_height, width, length, has_shed, rooftop_type, name) VALUES ('1',3495.0, 2.5, 2.5, 6.5, 0, 0, 'CAR01');
-INSERT INTO products (product_id, price, inner_height, width, length, has_shed, rooftop_type, shed_length, shed_width, name) VALUES ('2',7995.0, 3.3, 2.6, 7.3, 1, 0, 2.0, 2.0, 'CAR02');
-INSERT INTO products (product_id, price, inner_height, width, length, has_shed, rooftop_type, rooftop_angle, rooftop_height, name) VALUES ('3',12995.0, 4.3, 2.7, 5.3, 0, 1, 30, 0.5, 'CAR03');
-INSERT INTO products (product_id, price, inner_height, width, length, has_shed, rooftop_type, shed_length, shed_width, rooftop_angle, rooftop_height, name) VALUES ('4',18995.0, 5.3, 2.8, 8.3, 1, 1, 1.5, 1.5, 25, 0.8, 'CAR04');
+INSERT INTO products (product_id, price, inner_height, width, length, has_shed, rooftop_type, shed_length, shed_width, name) VALUES ('2',7995.0, 3.3, 2.6, 7.3, 1, 0, 2.0, 2.0, 'CAR01R');
+INSERT INTO products (product_id, price, inner_height, width, length, has_shed, rooftop_type, rooftop_angle, rooftop_height, name) VALUES ('3',12995.0, 4.3, 2.7, 5.3, 0, 1, 30, 0.5, 'CAR01H');
+INSERT INTO products (product_id, price, inner_height, width, length, has_shed, rooftop_type, shed_length, shed_width, rooftop_angle, rooftop_height, name) VALUES ('4',18995.0, 5.3, 2.8, 8.3, 1, 1, 1.5, 1.5, 25, 0.8, 'CAR01HR');
 INSERT INTO orders (order_id, creation_date, customer_id, order_status) VALUES ('1',CURDATE(), 2, 1);
 INSERT INTO orders (order_id, creation_date, customer_id, order_status) VALUES ('2',CURDATE(), 2, 1);
 INSERT INTO orders (order_id, creation_date, customer_id, order_status) VALUES ('3',CURDATE(), 3, 1);
