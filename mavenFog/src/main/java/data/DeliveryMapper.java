@@ -16,7 +16,10 @@ public class DeliveryMapper {
 
     private static Connection con;
 
-    //Creates a connection to DB
+    /**
+     * Creates a connection to DB
+     * @throws ConnectionException if connection can`t be established
+     */
     public static void setConnection() throws ConnectionException {
         con = DB.createConnection();
     }
@@ -25,9 +28,14 @@ public class DeliveryMapper {
         return con;
     }
 
-    //Creates new delivery in the Database
-    //Throws ConnectionException if we cant connect to the OrderMapper
-    //Throws CreateDelivery Exception if we cant execute the query
+    /**
+     * Creates new delivery in the Database
+     * @param orderID String
+     * @param moreInfo String/null
+     * @param price double
+     * @return the deliveryID of the newly created delivery
+     * @throws CreateDeliveryException if we cant execute the query
+     */
     public static String createDelivery(String orderID, String moreInfo, double price) throws CreateDeliveryException {
         String sql = "INSERT into delivery (delivery_id, delivery_status, more_info, price) VALUES (? , 0, ?, ?);";
         PreparedStatement stmt = null;
@@ -56,7 +64,10 @@ public class DeliveryMapper {
         return deliveryID;
     }//createDelivery
 
-    //Deletes a delivery input from the Database in case of failure in the createDelivery() method
+    /**
+     * Deletes a delivery input from the Database in case of failure in the createDelivery() method
+     * @param deliveryID String
+     */
     private static void deleteDelivery(String deliveryID) {
         String sql = "DELETE FROM delivery WHERE delivery_id = '" + deliveryID + "';";
         String set = "SET SQL_SAFE_UPDATES = 0;";
@@ -76,8 +87,10 @@ public class DeliveryMapper {
         }
     }//deleteDelivery
 
-    //Returns an ArrayList with all the deliveries in the Database
-    //Throws GetAllDeliveries Exception if the method is not executable or the list is empty
+    /**
+     * @return an ArrayList with all the deliveries in the Database
+     * @throws GetAllDeliveryException if the method is not executable or the list is empty
+     */
     public static ArrayList<Delivery> getAllDelivery() throws GetAllDeliveryException {
         ArrayList<Delivery> deliveries = new ArrayList<>();
         String sql = "SELECT * FROM delivery,orders NATURAL JOIN order_details WHERE delivery.delivery_id = order_details.delivery_id;";
@@ -114,8 +127,11 @@ public class DeliveryMapper {
         return deliveries;
     }//getAllDelivery
 
-    //Returns a Delivery object 
-    //Throws Query Exception if the method is not executable
+    /**
+     * @param orderID String
+     * @return a Delivery object 
+     * @throws QueryException if the method is not executable
+     */
     public static Delivery getDelivery(String orderID) throws QueryException {
         String sql = "SELECT * FROM delivery,orders NATURAL JOIN order_details WHERE delivery.delivery_id = order_details.delivery_id AND order_id = '" + orderID + "';";
         int deliveryStatus;
@@ -147,8 +163,12 @@ public class DeliveryMapper {
         return delivery;
     }//getDelivery
 
-    //Updates the Delivery status when the delivery is cancelled or completed
-    //Throws QueryException if the input is not the right data type or the querry is wrong
+    /**
+     * Updates the Delivery status when the delivery is cancelled or completed
+     * @param delivery_status int
+     * @param deliveryID String
+     * @throws QueryException if the input is not the right data type or the querry is wrong
+     */
     public static void updateDeliveryStatus(int delivery_status, String deliveryID) throws QueryException {
         String sql = "UPDATE delivery SET delivery_status = " + delivery_status + " WHERE delivery_id = '" + deliveryID + "';";
         String set = "SET SQL_SAFE_UPDATES = 0;";
@@ -168,8 +188,12 @@ public class DeliveryMapper {
         }
     }//updateDeliveryStatus
 
-    //Updates the Delivery date 
-    //Throws QueryException if the input is not the right data type or the querry is wrong
+    /**
+     * /Updates the Delivery date 
+     * @param date String
+     * @param deliveryID String
+     * @throws QueryException if the input is not the right data type or the querry is wrong
+     */
     public static void updateDeliveryDate(String date, String deliveryID) throws QueryException {
         String sql = "UPDATE delivery SET delivery_date = '" + date + "' WHERE delivery_id = '" + deliveryID + "';";
         String set = "SET SQL_SAFE_UPDATES = 0;";

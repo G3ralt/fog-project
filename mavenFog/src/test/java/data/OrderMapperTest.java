@@ -5,8 +5,6 @@ import exceptions.ConnectionException.GetAllOrdersException;
 import exceptions.ConnectionException.QueryException;
 import exceptions.ConnectionException.UpdateOrderDetailsException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.Order;
 import model.User;
 import org.junit.After;
@@ -16,10 +14,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-/**
- *
- * @author Alex
- */
 public class OrderMapperTest {
     
     public OrderMapperTest() {
