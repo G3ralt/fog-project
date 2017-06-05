@@ -191,9 +191,11 @@
         </div>
         <!-- areYouSure modal END -->
 
+        
+        <!-- Finalise modal -->
         <% if (session.getAttribute("popupFinalise") != null && session.getAttribute("popupFinalise").equals("yes")) {
                 session.removeAttribute("popupFinalise"); %>
-        <!-- Finalise -->
+        
         <div id="Finalise" class="modal" style="overflow-y: scroll; z-index: 4;">
             <form class="modal-content animate" action="../Admin" method="post">
                 <div class="imgcontainer">

@@ -1,3 +1,4 @@
+<%@page import="model.Product"%>
 <%@page import="exceptions.ConnectionException"%>
 <%@page import="model.Invoice"%>
 <%@page import="model.Order"%>
@@ -5,7 +6,9 @@
 <%@page import="model.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<% User user = null; %>
+<% User user = null; 
+   Product product = null;
+%>
 <%! String firstName, lastName, address, email, accountID;
     int phone, zipCode;
 %>
@@ -181,7 +184,7 @@
                     <!-- Profile info END -->
 
                     <a id="edit" class="btn btn-warning" onclick="document.getElementById('editProfile').style.display = 'block'">Edit</a>
-                    
+
                     <!-- Edit Profile Modal -->
                     <div class="modal" id="editProfile" style="overflow-y: scroll">
                         <form class="modal-content animate" action="../Profile" method="POST">
@@ -230,17 +233,31 @@
                                     out.print("success");
                                 }%>">
                                 <td>Order ID: <%=order.getOrderID()%></td>
-                                <td><p><%if (order.getOrderStatus() == 0) {
-                                        out.print("Pending");
-                                    } else {
-                                        out.print("Completed");
-                                    }%></p>
-                                    <div class="collapse" id="<%= order.getOrderID()%>">                                           
-                                        <p>Date: <%=order.getDate()%></p>
-                                        <p>Delivery ID:<%=order.getDeliveryID()%></p>
-                                        <p>Invoice ID:<%=order.getInvoiceID()%></p>
-
-                                    </div></td>
+                                <td>
+                                    <p><%if (order.getOrderStatus() == 0) {
+                                            out.print("Pending");
+                                        } else {
+                                            out.print("Completed");
+                                        }%>
+                                    </p>
+                                    <div class="collapse" id="<%= order.getOrderID()%>">
+                                        <div class="well col-lg-6">
+                                            <p>Ordered on Date: <%=order.getDate()%></p>
+                                            <p>Delivery ID:<% if (order.getDeliveryID() == null) {
+                                                    out.print(" Waiting for Delivery Date");
+                                                } else {
+                                                    out.print(" " + order.getDeliveryID());
+                                                }%>
+                                            </p>
+                                            <p>Invoice ID:<% if (order.getInvoiceID() == null) {
+                                                    out.print(" Invoice is not issued yet");
+                                                } else {
+                                                    out.print(" " + order.getInvoiceID());
+                                                }%>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </td>
                                 <td><button type="button" data-toggle="collapse" data-target="#<%=order.getOrderID()%>" >Click to collapse</button></td>
                             </tr>
 
@@ -296,7 +313,7 @@
                 });
             });
         </script>
-        
+
         <!-- Close Edit Profile Details modal -->
         <script>
             // Get the modal
