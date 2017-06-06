@@ -17,7 +17,10 @@ public class InvoiceMapper {
 
     private static Connection con;
 
-    //Creates a connection to DB
+    /**
+     * Creates a connection to DB
+     * @throws ConnectionException if connection can`t be established
+     */
     public static void setConnection() throws ConnectionException {
         con = DB.createConnection();
     }
@@ -26,9 +29,13 @@ public class InvoiceMapper {
         return con;
     }
 
-    //Creates an invoice in DB
-    //Throws ConnectionException if we cant connect to the OrderMapper
-    //Throws CreateInvoiceException if we cant execute the query
+    /**
+     * Creates an invoice in DB
+     * @param totalPrice double
+     * @param orderID String
+     * @return the unique ID of the newly created invoice
+     * @throws CreateInvoiceException if we cant execute the query
+     */
     public static String createInvoice(double totalPrice, String orderID) throws CreateInvoiceException {
         String sql = "INSERT INTO invoice (invoice_id, creation_date, total_price) VALUES (?, curdate(), ?);";
         String invoiceID = "";
@@ -56,7 +63,10 @@ public class InvoiceMapper {
         return invoiceID;
     }
 
-    //Deletes an invoice input from the Database in case of failure in the createInvoice() method
+    /**
+     * Deletes an invoice input from the Database in case of failure in the createInvoice() method
+     * @param invoiceID String
+     */
     private static void deleteInvoice(String invoiceID) {
         String sql = "DELETE FROM invoice WHERE invoice_id = '" + invoiceID + "';";
         String set = "SET SQL_SAFE_UPDATES = 0;";
@@ -76,8 +86,10 @@ public class InvoiceMapper {
         }
     }//deleteInvoice
 
-    //Returns an ArrayList with all the invoices in the Database
-    //Throws GetAllInvoicesException if the method is not executable or the list is empty
+    /**
+     * @return an ArrayList with all the invoices in the Database
+     * @throws GetAllInvoicesException if the method is not executable or the list is empty
+     */
     public static ArrayList<Invoice> getAllInvoice() throws GetAllInvoicesException {
         ArrayList<Invoice> invoices = new ArrayList<>();
         String sql = "SELECT * FROM invoice,orders NATURAL JOIN order_details WHERE invoice.invoice_id = order_details.invoice_id;";
@@ -110,8 +122,11 @@ public class InvoiceMapper {
         return invoices;
     }//getAllInvoice
 
-    //Returns an ArrayList with all the invoices in the Database
-    //Throws GetAllInvoicesException if the method is not executable or the list is empty
+    /**
+     * @param customerID String
+     * @return an ArrayList with all the invoices in the Database
+     * @throws GetAllInvoicesException if the method is not executable 
+     */
     public static ArrayList<Invoice> getAllInvoiceByCustomer(String customerID) throws GetAllInvoicesException {
         ArrayList<Invoice> invoices = new ArrayList<>();
         String sql = "SELECT * FROM invoice,orders NATURAL JOIN order_details WHERE invoice.invoice_id = order_details.invoice_id AND customer_id = '" + customerID + "';";

@@ -15,7 +15,10 @@ public class ProductMapper {
     
     private static Connection con;
 
-    //Creates a connection to DB
+    /**
+     * Creates a connection to DB
+     * @throws ConnectionException if connection can`t be established
+     */
     public static void setConnection() throws ConnectionException {
         con = DB.createConnection(); 
     }

@@ -10,24 +10,31 @@ import java.sql.SQLException;
 import java.util.Random;
 
 public class DB {
-    private final static String driver = "com.mysql.jdbc.Driver";
+    private final static String DRIVER = "com.mysql.jdbc.Driver";
     private final static String URL = "jdbc:mysql://localhost:3306/fog";
-    private final static String id = "fog";
-    private final static String pw = "fog123";
+    private final static String ID = "fog";
+    private final static String PASSWORD = "fog123";
     
-    //Creates connection to the Database. Throws Exception if the connection is not established.    
+    /**
+     * Creates connection to the Database.
+     * @return Connection con
+     * @throws ConnectionException if the connection is not established. 
+     */   
     public static Connection createConnection() throws ConnectionException {
         Connection con = null;
         try {
-            Class.forName(driver);
-            con = DriverManager.getConnection(URL, id, pw);
+            Class.forName(DRIVER);
+            con = DriverManager.getConnection(URL, ID, PASSWORD);
         } catch (SQLException | ClassNotFoundException e) {
             throw new ConnectionException();
         } 
         return con;
     }
     
-    //Closes the connection to the Database
+    /**
+     * Closes the connection to the Database
+     * @param con from the Mapper classes
+     */
     public static void releaseConnection(Connection con) {
         if (con!=null) {    
             try {
@@ -38,7 +45,10 @@ public class DB {
         }    
     }
     
-    //Closes a given PreparedStatement
+    /**
+     * Closes a given PreparedStatement
+     * @param stmt from the Mapper classes
+     */
     public static void closeStmt(PreparedStatement stmt) {
         if (stmt != null) {
             try {
@@ -49,7 +59,10 @@ public class DB {
         }
     }
     
-    //Closes a given ResultSet
+    /**
+     * Closes a given ResultSet
+     * @param rs from the Mapper classes
+     */
     public static void closeRs(ResultSet rs) {
         if (rs != null) {
             try {
@@ -60,7 +73,14 @@ public class DB {
         }
     }
     
-    //Returns a unique ID for the Mapper Classes to put into DB
+    /**
+     * Makes sure the ID is unique by seaching the Database
+     * @param table in the Database
+     * @param column in the Database
+     * @param con from the Mapper classes
+     * @return String uniqueID for the Mapper Classes to put into the Database
+     * @throws QueryException if not executable
+     */
     public static String generateID(String table, String column, Connection con) throws QueryException {
         String uniqueID = randomID();
         String sql = "SELECT " + column + " FROM " + table + " WHERE " + column + " = '" + uniqueID +"'";
@@ -84,7 +104,10 @@ public class DB {
         return uniqueID;
     }
     
-    //Creates random String IDs with 10 integers
+    /**
+     * Creates random String IDs with 10 integers
+     * @return String uniqueID
+     */
     private static String randomID() {
         String uniqueID = "";
         Random rand = new Random();
